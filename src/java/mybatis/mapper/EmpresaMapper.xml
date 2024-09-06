@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="empresa">
+    
+    <select id="obtenerEstatus" resultType="modelo.pojo.Estatus">
+        
+    </select>
+    
+    <select id="obtenerEmpresas" resultType="modelo.pojo.Empresa">
+        SELECT * FROM empresa
+    </select>
+    
+    
+    
+    <insert id="agregarEmpresa" parameterType="modelo.pojo.DatosRegistroEmpresa" statementType="CALLABLE">
+      {CALL registrarEmpresa(
+        #{empresa.nombre, mode=IN, jdbcType=VARCHAR},
+        #{empresa.nombre_comercial, mode=IN, jdbcType=VARCHAR},
+        #{empresa.nombre_representante, mode=IN, jdbcType=VARCHAR},
+        #{empresa.email, mode=IN, jdbcType=VARCHAR},
+        #{empresa.telefono, mode=IN, jdbcType=VARCHAR},
+        #{empresa.pagina_web, mode=IN, jdbcType=VARCHAR},
+        #{empresa.rfc, mode=IN, jdbcType=VARCHAR},
+        
+        #{domicilio.calle, mode=IN, jdbcType=VARCHAR},
+        #{domicilio.numero, mode=IN, jdbcType=INTEGER},
+        #{domicilio.colonia, mode=IN, jdbcType=VARCHAR},
+        #{domicilio.codigo_postal, mode=IN, jdbcType=INTEGER},
+        #{domicilio.id_ciudad, mode=IN, jdbcType=INTEGER},
+        
+        #{filasAfectadas, mode=OUT, jdbcType=INTEGER},
+        #{error, mode=OUT, jdbcType=VARCHAR}
+    )}
+        
+    </insert>
+    
+    
+  
+
+ <delete id="eliminarEmpresa" parameterType="String">
+        DELETE FROM empresa
+        WHERE rfc = #{rfc}
+    </delete>
+
+</mapper>

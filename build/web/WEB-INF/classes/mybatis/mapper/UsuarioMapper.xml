@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="usuario">
+    
+    <select id="obtenerUsuarios" resultType="modelo.pojo.Usuario">
+        SELECT * FROM usuario
+    </select>
+    
+   
+    
+    <insert id="registrarUsuario" parameterType="modelo.pojo.Usuario" >
+    INSERT INTO usuario (
+        nombre,apellido_paterno,apellido_materno,
+        curp,
+        correo_electronico,
+        username,
+        contrasena,
+        rol_id,
+        empresa_id
+    ) VALUES (
+        #{nombre},
+        #{apellido_paterno},
+        #{apellido_materno},
+        #{curp},
+        #{correo_electronico},
+        #{username},
+        #{contrasena},
+        #{rol_id},
+        #{empresa_id}
+    )
+    </insert>
+    
+    <update id="editarUsuario" parameterType="modelo.pojo.Usuario">
+    
+    UPDATE usuario
+        SET apellido_materno = #{apellidoMaterno},
+            apellido_paterno = #{apellidoPaterno},
+            contrasena = #{contrasena},
+            correo_electronico = #{correo_electronico},
+            nombre = #{nombre},
+            username = #{username}
+        WHERE id = #{id};
+    </update>
+    
+    
+    
+  
+    
+    <delete id="eliminarUsuarioId" parameterType="Integer">
+        DELETE FROM usuario
+        WHERE id = #{id}
+        
+    </delete>
+
+    
+   
+
+</mapper>
