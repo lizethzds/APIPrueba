@@ -77,10 +77,28 @@ CREATE TABLE empresa (
 );
 
 CREATE TABLE sucursal (
+id INT AUTO_INCREMENT PRIMARY KEY,
+nombre VARCHAR(100) NOT NULL,
+direccion_id INT NOT NULL,
+empresa_id INT NOT NULL,
+telefono VARCHAR(15) NOT NULL,
+latitud VARCHAR(30) NOT NULL,
+longitud VARCHAR(30) NOT NULL,
+nombre_encargado VARCHAR(100) NOT NULL,
+FOREIGN KEY (direccion_id) 	REFERENCES domicilio(id),
+FOREIGN KEY (empresa_id)references empresa(id)
 );
 
 CREATE TABLE cliente(
-
+id INT AUTO_INCREMENT PRIMARY KEY,
+nombre VARCHAR(30) NOT NULL,
+apellido_paterno VARCHAR(30) NOT NULL,
+apellido_materno VARCHAR(30) NOT NULL,
+telefono VARCHAR(15) NOT NULL,
+fecha_nacimiento VARCHAR(30) NOT NULL,
+contrasena VARCHAR(18) NOT NULL,
+direccion_id INT NOT NULL,
+FOREIGN KEY (direccion_id) REFERENCES domicilio(id)
 );
 
 

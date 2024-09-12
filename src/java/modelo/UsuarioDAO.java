@@ -31,8 +31,34 @@ public class UsuarioDAO {
             } finally {
                 conexionBD.close();
             }
+        }else{
+            System.out.println("No se estableció conexion con la BD");
         }
         return usuarios;
+    }
+    
+    
+    public static Usuario obtenerUsuarioPorId(Integer id){
+        Usuario usuario = new Usuario();
+        
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        if(conexionBD != null){
+            try{
+                usuario = conexionBD.selectOne("usuario.obtenerUsuarioPorId", id);
+                if(usuario == null){
+                    System.out.println("No se encontró un usuario con ese id");
+                    
+                }
+                
+            }catch(Exception e){
+                e.printStackTrace();
+            }finally{
+                conexionBD.close();
+            }
+            
+                         
+        }
+            return usuario;
     }
     
     
@@ -75,13 +101,13 @@ public class UsuarioDAO {
         } catch (Exception e) {
             e.printStackTrace();
             mensaje.setMensaje("Ocurrió un error durante el registro del usuario.");
-            mensaje.setError(false);
+            mensaje.setError(true);
         } finally {
             conexionBD.close();
         }
     } else {
         mensaje.setMensaje("Error al conectar con la base de datos.");
-        mensaje.setError(false);
+        mensaje.setError(true);
     }
 
     return mensaje;
@@ -113,17 +139,18 @@ public class UsuarioDAO {
                 int resultado = conexionBD.insert("usuario.editarUsuario", usuario);
                 conexionBD.commit();
                 if (resultado > 0) {
-                    mensaje.setMensaje("Usuario registrado exitosamente.");
+                    mensaje.setMensaje("Usuario actualizado exitosamente.");
                     mensaje.setError(false);
                 } else {
-                    mensaje.setMensaje("Error al registrar el usuario.");
+                    mensaje.setMensaje("Error al actualizar el usuario.");
                     mensaje.setError(true);
                 }
-            }
-                
-                
+            }     
                 
             }catch(Exception e){
+                e.printStackTrace();
+                mensaje.setMensaje("Ocurrió un error al intentar actualizar los datos de usuario.");
+                mensaje.setError(true);
                 
             }finally{
                 conexionBD.close();
@@ -132,6 +159,40 @@ public class UsuarioDAO {
         
         
         
+        
+        return mensaje;
+    }
+    
+    
+    public static Mensaje eliminarUsuario(Integer id){
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        Mensaje mensaje = new Mensaje();
+        
+        if(conexionBD != null ){
+            try{
+                int filasAfectadas = conexionBD.delete("usuario.eliminarUsuarioId",id);
+                conexionBD.commit();
+                
+                if(filasAfectadas > 0 ){
+                    mensaje.setError(false);
+                    mensaje.setMensaje("El usuario se ha eliminado correctamente.");
+                }else{
+                    mensaje.setMensaje("No se pudo eliminar el usuario, intente nuevamente.");
+                    mensaje.setError(true);
+                }
+                
+                
+            }catch(Exception e){
+                e.printStackTrace();
+                mensaje.setError(true);
+                mensaje.setMensaje("Hubo un error al intentar eliminar el usuario.");
+                
+                
+            }finally{
+                conexionBD.close();
+                
+            }
+        }
         
         return mensaje;
     }

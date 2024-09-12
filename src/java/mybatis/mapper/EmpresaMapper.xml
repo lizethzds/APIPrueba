@@ -6,13 +6,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="empresa">
     
     <select id="obtenerEstatus" resultType="modelo.pojo.Estatus">
+        SELECT * from estatus
+    </select>
+    
+    <select id="obtenerCiudadesPorEstado" resultType="modelo.pojo.Ciudad">
+        
+        SELECT * FROM ciudad WHERE id_estado = #{id_estado}
         
     </select>
+    
     
     <select id="obtenerEmpresas" resultType="modelo.pojo.Empresa">
         SELECT * FROM empresa
     </select>
     
+    <select id="obtenerSucursalesEmpresa" parameterType="Integer" resultType="modelo.pojo.Sucursal">
+        SELECT 
+            sucursal.nombre AS nombre_sucursal,
+            sucursal.latitud,
+            sucursal.longitud,
+            sucursal.nombre_encargado,
+            empresa.nombre AS nombre_empresa
+        FROM 
+            sucursal
+        INNER JOIN 
+            empresa ON sucursal.id_empresa = empresa.id_empresa
+        WHERE 
+            sucursal.id = #{id}; 
+
+        
+    </select>
     
     
     <insert id="agregarEmpresa" parameterType="modelo.pojo.DatosRegistroEmpresa" statementType="CALLABLE">
@@ -31,11 +54,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         #{domicilio.codigo_postal, mode=IN, jdbcType=INTEGER},
         #{domicilio.id_ciudad, mode=IN, jdbcType=INTEGER},
         
-        #{filasAfectadas, mode=OUT, jdbcType=INTEGER},
-        #{error, mode=OUT, jdbcType=VARCHAR}
+        #{filasAfectadas, mode=INOUT, jdbcType=INTEGER},
+        #{error, mode=INOUT, jdbcType=VARCHAR}
     )}
         
     </insert>
+    
+    <update id="editarEmpresa" parameterType="modelo.pojo.DatosRegistroEmpresa" statementType="CALLABLE">
+    {CALL editarEmpresa(
+        #{empresa.id, mode=IN, jdbcType=INTEGER},
+        #{empresa.nombre, mode=IN, jdbcType=VARCHAR},
+        #{empresa.nombre_comercial, mode=IN, jdbcType=VARCHAR},
+        #{empresa.nombre_representante, mode=IN, jdbcType=VARCHAR},
+        #{empresa.email, mode=IN, jdbcType=VARCHAR},
+        #{empresa.telefono, mode=IN, jdbcType=VARCHAR},
+        #{empresa.logo, mode=IN, jdbcType=BLOB},
+        #{empresa.pagina_web, mode=IN, jdbcType=VARCHAR},
+        
+        #{domicilio.calle, mode=IN, jdbcType=VARCHAR},
+        #{domicilio.numero, mode=IN, jdbcType=INTEGER},
+        #{domicilio.colonia, mode=IN, jdbcType=VARCHAR},
+        #{domicilio.codigo_postal, mode=IN, jdbcType=INTEGER},
+        #{domicilio.id_ciudad, mode=IN, jdbcType=INTEGER},
+        
+        #{filasAfectadas, mode=INOUT, jdbcType=INTEGER},
+        #{error, mode=INOUT, jdbcType=VARCHAR}
+    )}
+</update>
+
     
     
   
@@ -44,5 +90,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         DELETE FROM empresa
         WHERE rfc = #{rfc}
     </delete>
+    
+    
 
 </mapper>

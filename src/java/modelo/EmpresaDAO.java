@@ -1,9 +1,11 @@
 
 package modelo;
 
+import java.util.List;
 import modelo.pojo.DatosRegistroEmpresa;
 import modelo.pojo.Empresa;
 import modelo.pojo.Mensaje;
+import modelo.pojo.Sucursal;
 import mybatis.MyBatisUtil;
 import org.apache.ibatis.session.SqlSession;
 
@@ -13,41 +15,17 @@ import org.apache.ibatis.session.SqlSession;
  */
 public class EmpresaDAO {
     
+    public static List<Sucursal> obtenerSucursalesEmpresa(Integer id){
+        List<Sucursal> sucursales;
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        sucursales = conexionBD.selectList("empresa.obtenerSucursalesEmpresa", id);
+        
+        return sucursales;
     
-    
-    
-    /*
-    public static Mensaje registrarEmpresa(DatosRegistroEmpresa datosEmpresa){
-       Mensaje msj = new Mensaje();
-       msj.setError(true);
-       SqlSession conexionBD = MyBatisUtil.getSession();
-       
-       if(conexionBD != null){
-           try{
-               int filasAfectadas = conexionBD.insert("empresa.agregarEmpresa", datosEmpresa);
-               conexionBD.commit();
-               if (filasAfectadas > 0 ){
-                msj.setError(false);
-                msj.setMensaje("Se agregó la empresa con éxito.");
-               }
-               else{
-                   msj.setMensaje(datosEmpresa.getError());
-                 
-               }
-               
-           }catch(Exception e){
-               msj.setMensaje("Error" + e.getMessage());
-           }
-           finally{
-           }
-           conexionBD.close();
-           
-            }
-       
-        return msj;
     }
-
-*/
+    
+    
+   
     
     public static Mensaje registrarEmpresa(DatosRegistroEmpresa registroEmpresa) {
         Mensaje mensaje = new Mensaje();
@@ -82,26 +60,48 @@ public class EmpresaDAO {
     
     
     
-    public static Mensaje editarEmpresa(Empresa empresa){
+    public static Mensaje editarEmpresa(DatosRegistroEmpresa edicionEmpresa){
         Mensaje msj = new Mensaje();
         msj.setError(true);
         SqlSession conexionBD = MyBatisUtil.getSession();
         
         if(conexionBD !=null){
             try{
+                conexionBD.update("empresa.editarEmpresa", edicionEmpresa);
+                conexionBD.commit();
+                if(edicionEmpresa.getFilasAfectadas()> 0 && edicionEmpresa.getError().isEmpty()){
+                    msj.setError(false);
+                    msj.setMensaje("Actualización de empresa exitosa.");
+                } else{
+                    msj.setMensaje(edicionEmpresa.getError());
+                }
             
             }catch(Exception e){
+                msj.setMensaje("Por el momento no pudo realizarse la operación, por favor intentalo más tarde.");
+                e.printStackTrace();
             }
             
             finally{
+                conexionBD.close();
             }
         
         }
+        else{
+                    msj.setMensaje("No hubo conexión con la BD.");
+                    }
         
         
          return msj;
         }
     
     
+    
+    /*
+    public static DatosRegistroEmpresa obtenerEmpresaID (DatosRegistroEmpresa empresa){
+        DatosRegistroEmpresa empresaSolicitada = new DatosRegistroEmpresa();
+        
+    }
+    
+    */
    
 }
