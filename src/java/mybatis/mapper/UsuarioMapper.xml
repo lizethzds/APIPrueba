@@ -54,7 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <delete id="eliminarUsuarioId" parameterType="Integer">
         DELETE FROM usuario
-        WHERE id = #{id}
+        WHERE id = #{id} AND sesion = 0
     </delete>
 
     

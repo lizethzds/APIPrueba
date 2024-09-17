@@ -15,17 +15,66 @@ import org.apache.ibatis.session.SqlSession;
  */
 public class EmpresaDAO {
     
-    public static List<Sucursal> obtenerSucursalesEmpresa(Integer id){
-        List<Sucursal> sucursales;
-        SqlSession conexionBD = MyBatisUtil.getSession();
-        sucursales = conexionBD.selectList("empresa.obtenerSucursalesEmpresa", id);
+  
+    
+    public static List <Empresa> obtenerEmpresas (){
+    List<Empresa> empresas;
+    SqlSession conexionBD = MyBatisUtil.getSession();
+    empresas = conexionBD.selectList("empresa.obtenerEmpresas");
+    
+    return empresas;
+    
+    }
+    
+    public static DatosRegistroEmpresa obtenerEmpresaId(Integer id){
         
-        return sucursales;
+        DatosRegistroEmpresa empresaSolicitada = new DatosRegistroEmpresa();
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        empresaSolicitada = conexionBD.selectOne("empresa.obtenerEmpresaPorId", id);
+        
+        return empresaSolicitada;
     
     }
     
     
-   
+    public static Mensaje eliminarEmpresa (Integer id){
+        Mensaje msj = new Mensaje();
+        msj.setError(true);
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        
+        if (conexionBD != null){
+        
+            
+            try{
+                    int filasAfectadas = conexionBD.delete("empresa.eliminarEmpresa", id);
+                    conexionBD.commit();
+                    
+                    if(filasAfectadas>0){
+                        msj.setError(false);
+                        msj.setMensaje("Eliminacióin exitosa!!");
+                        
+                    }else{
+                        msj.setMensaje("La eliminación ha fallado debido a que existen sucursales asociadas a la empresa.");
+                        System.out.println("Filas afectadas " + filasAfectadas );
+                    }
+                
+            }catch(Exception e){
+                e.printStackTrace();
+                
+            }finally{
+                conexionBD.close();
+            }
+        }else{
+            msj.setMensaje("Por el momento no hay conexión con la BD.");
+        
+        }
+        
+        return msj;
+        
+        
+        
+    }
+    
     
     public static Mensaje registrarEmpresa(DatosRegistroEmpresa registroEmpresa) {
         Mensaje mensaje = new Mensaje();

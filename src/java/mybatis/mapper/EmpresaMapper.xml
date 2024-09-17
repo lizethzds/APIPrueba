@@ -17,26 +17,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     
     <select id="obtenerEmpresas" resultType="modelo.pojo.Empresa">
-        SELECT * FROM empresa
+        SELECT nombre, nombre_comercial, nombre_representante, email, telefono, pagina_web, rfc  FROM empresa
     </select>
     
-    <select id="obtenerSucursalesEmpresa" parameterType="Integer" resultType="modelo.pojo.Sucursal">
+    
+    <select id="obtenerEmpresaPorId" resultType = "modelo.pojo.DatosRegistroEmpresa">
         SELECT 
-            sucursal.nombre AS nombre_sucursal,
-            sucursal.latitud,
-            sucursal.longitud,
-            sucursal.nombre_encargado,
-            empresa.nombre AS nombre_empresa
-        FROM 
-            sucursal
-        INNER JOIN 
-            empresa ON sucursal.id_empresa = empresa.id_empresa
-        WHERE 
-            sucursal.id = #{id}; 
+        e.nombre AS 'empresa.nombre',
+        e.nombre_comercial AS 'empresa.nombre_comercial',
+        e.logo AS 'empresa.logo',
+        e.nombre_representante AS 'empresa.nombre_representante',
+        e.email AS 'empresa.email',
+        e.telefono AS 'empresa.telefono',
+        e.pagina_web AS 'empresa.pagina_web',
+        e.rfc AS 'empresa.rfc',
+        e.estatus_id AS 'empresa.estatus_id',
 
-        
+        d.calle AS 'domicilio.calle',
+        d.numero AS 'domicilio.numero',
+        d.colonia AS 'domicilio.colonia',
+        d.codigo_postal AS 'domicilio.codigo_postal',
+        d.id_ciudad AS 'domicilio.id_ciudad'
+
+    FROM 
+        empresa e
+    INNER JOIN 
+        domicilio d ON e.direccion_id = d.id
+    WHERE 
+        e.id = #{id}
     </select>
     
+
     
     <insert id="agregarEmpresa" parameterType="modelo.pojo.DatosRegistroEmpresa" statementType="CALLABLE">
       {CALL registrarEmpresa(
@@ -82,14 +93,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     )}
 </update>
 
-    
-    
-  
 
- <delete id="eliminarEmpresa" parameterType="String">
-        DELETE FROM empresa
-        WHERE rfc = #{rfc}
-    </delete>
+<update id="subirLogoEmpresa" parameterType="modelo.pojo.Empresa">
+     UPDATE empresa
+        SET logo = #{logo} 
+        WHERE id = #{id}
+    
+</update>
+
+
+ <delete id="eliminarEmpresa" parameterType="Integer">
+    DELETE FROM empresa
+    WHERE id = #{id}
+    AND NOT EXISTS (
+      SELECT 1
+      FROM sucursal
+      WHERE sucursal.empresa_id = #{id}
+    )
+</delete>
+
     
     
 

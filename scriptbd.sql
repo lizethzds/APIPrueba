@@ -104,14 +104,65 @@ FOREIGN KEY (direccion_id) REFERENCES domicilio(id)
 
 
 -- Crear el trigger para manejar la eliminación de empresas y domicilio
-DELIMITER //
+DELIMITER $$
 
-CREATE TRIGGER before_delete_empresa
-BEFORE DELETE ON empresa
+CREATE TRIGGER after_empresa_delete
+AFTER DELETE ON empresa
 FOR EACH ROW
 BEGIN
-    -- Borrar la persona asociada
-    DELETE FROM domicilio WHERE id = OLD.domicilio;
-END //
+  -- Eliminar la dirección asociada a la empresa eliminada
+  DELETE FROM domicilio
+  WHERE domicilio.id = OLD.direccion_id;
+END$$
 
 DELIMITER ;
+
+
+-- Consultas con Join
+
+
+-- Sucursales de una empresa por ID
+SELECT 
+    sucursal.nombre AS nombre_sucursal,
+    sucursal.latitud,
+    sucursal.longitud,
+    sucursal.nombre_encargado,
+    empresa.nombre AS nombre_empresa
+FROM 
+    sucursal
+INNER JOIN 
+    empresa ON sucursal.empresa_id = empresa.id
+WHERE empresa.id = 2;
+
+
+SELECT 
+    e.nombre AS 'empresa.nombre',
+    e.nombre_comercial AS 'empresa.nombre_comercial',
+    e.logo AS 'empresa.logo',
+    e.nombre_representante AS 'empresa.nombre_representante',
+    e.email AS 'empresa.email',
+    e.telefono AS 'empresa.telefono',
+    e.pagina_web AS 'empresa.pagina_web',
+    e.rfc AS 'empresa.rfc',
+    e.estatus_id AS 'empresa.estatus_id',
+    
+    d.calle AS 'domicilio.calle',
+    d.numero AS 'domicilio.numero',
+    d.colonia AS 'domicilio.colonia',
+    d.codigo_postal AS 'domicilio.codigo_postal',
+    d.id_ciudad AS 'domicilio.id_ciudad'
+    
+FROM 
+    empresa e
+INNER JOIN 
+    domicilio d ON e.direccion_id = d.id
+WHERE 
+    e.id = 9;
+
+
+-- Promociones de una sucursal 
+
+-- Promociones de una empresa
+
+-- Empleados asociados a una empresa
+

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sucursal">
+    
+    
+<select id="obtenerSucursalPorId" parameterType="Integer" resultType="modelo.pojo.DatosRegistroSucursal">
+    SELECT 
+        s.nombre AS 'sucursal.nombre',
+        s.telefono AS 'sucursal.telefono',
+        s.latitud AS 'sucursal.latitud',
+        s.longitud AS 'sucursal.longitud',
+        s.nombre_encargado AS 'sucursal.nombre_encargado',
+        
+        d.calle AS 'domicilio.calle',
+        d.numero AS 'domicilio.numero',
+        d.colonia AS 'domicilio.colonia',
+        d.codigo_postal AS 'domicilio.codigo_postal',
+        d.id_ciudad AS 'domicilio.id_ciudad'
+        
+    FROM 
+        sucursal s
+    INNER JOIN 
+        domicilio d ON s.direccion_id = d.id
+    WHERE 
+        s.id = #{id}
+   
+
+   
+</select>
+
+<select id="obtenerSucursales" resultType="modelo.pojo.Sucursal">
+    
+    SELECT *
+    FROM sucursal
+    
+</select>
+
+<select id="obtenerSucursalesEmpresa" resultType="modelo.pojo.Sucursal">
+     SELECT 
+        sucursal.nombre AS nombre_sucursal,
+        sucursal.latitud,
+        sucursal.longitud,
+        sucursal.nombre_encargado,
+        sucursal.direccion_id,
+        empresa.nombre AS nombre_empresa
+    FROM 
+        sucursal
+    INNER JOIN 
+        empresa ON sucursal.empresa_id = empresa.id
+    WHERE 
+    empresa.id = #{id}
+</select>
+
+
+<insert id="registrarSucursal" parameterType="modelo.pojo.DatosRegistroSucursal" statementType="CALLABLE">
+     {CALL registrarSucursal(
+        #{sucursal.nombre, mode=IN, jdbcType=VARCHAR},
+        #{sucursal.telefono, mode=IN, jdbcType=VARCHAR},
+        #{sucursal.latitud, mode=IN, jdbcType=DECIMAL},
+        #{sucursal.longitud, mode=IN, jdbcType=DECIMAL},
+        #{sucursal.nombre_encargado, mode=IN, jdbcType=VARCHAR},
+        #{sucursal.empresa_id, mode=IN, jdbcType=INTEGER},
+        
+        #{domicilio.calle, mode=IN, jdbcType=VARCHAR},
+        #{domicilio.numero, mode=IN, jdbcType=INTEGER},
+        #{domicilio.colonia, mode=IN, jdbcType=VARCHAR},
+        #{domicilio.codigo_postal, mode=IN, jdbcType=INTEGER},
+        #{domicilio.id_ciudad, mode=IN, jdbcType=INTEGER},
+        
+        #{filasAfectadas, mode=INOUT, jdbcType=INTEGER},
+        #{error, mode=INOUT, jdbcType=VARCHAR}
+    )}
+    
+</insert>
+    
+    
+
+</mapper>

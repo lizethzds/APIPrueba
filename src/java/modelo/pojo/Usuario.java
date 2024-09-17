@@ -17,11 +17,13 @@ public class Usuario {
     private String contrasena;
     private Integer rol_id;
     private Integer empresa_id;
+    private Integer sesion;
 
     public Usuario() {
     }
 
-    public Usuario(Integer id, String nombre, String apellido_paterno, String apellido_materno, String curp, String correo_electronico, String username, String contrasena, Integer rol_id, Integer empresa_id) {
+    public Usuario(Integer id, String nombre, String apellido_paterno, String apellido_materno, String curp, 
+            String correo_electronico, String username, String contrasena, Integer rol_id, Integer empresa_id, Integer sesion) {
         this.id = id;
         this.nombre = nombre;
         this.apellido_paterno = apellido_paterno;
@@ -32,6 +34,15 @@ public class Usuario {
         this.contrasena = contrasena;
         this.rol_id = rol_id;
         this.empresa_id = empresa_id;
+        this.sesion= sesion;
+    }
+
+    public Integer getSesion() {
+        return sesion;
+    }
+
+    public void setSesion(Integer sesion) {
+        this.sesion = sesion;
     }
 
     public Integer getId() {

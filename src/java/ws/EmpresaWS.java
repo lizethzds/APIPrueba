@@ -4,10 +4,12 @@ package ws;
 import com.google.gson.Gson;
 import java.util.List;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
@@ -36,24 +38,33 @@ public class EmpresaWS {
     }
     
     //Obtener empresas en general
-    /*
+    
     @GET
     
     @Path("obtenerEmpresas")
     
     @Produces(MediaType.APPLICATION_JSON)
     
-    public List<DatosRegistroEmpresa> obtenerEmpresas(String json){
-        
+    public List<Empresa> obtenerEmpresas(String json){
+    
+        return EmpresaDAO.obtenerEmpresas();
         
     }
-    */
+   
     
-    //Obtener Sucursales por ID de Empresa
-    
-    
-    
+
     //Obtener Empresas por Id junto a su dirección.
+    
+    @GET
+    @Path("obtenerEmpresaPorId/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public DatosRegistroEmpresa obtenerEmpresaPorId(@PathParam("id")Integer id){
+        if(id<=0){
+        throw new WebApplicationException(Response.Status.BAD_REQUEST);
+        }else{
+            return EmpresaDAO.obtenerEmpresaId(id);
+        }
+    }
     
     
     @POST
@@ -83,8 +94,6 @@ public class EmpresaWS {
         return msj;
         
     }
-    
-    
     
     //Editar Empresas
     
@@ -117,8 +126,21 @@ public class EmpresaWS {
     
     
     
-    //Eliminar empresas con restricción.
+    //Eliminar empresas con restricción de sesion y sucursales
     
+    @DELETE
+    @Path("eliminarEmpresa/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Mensaje eliminarEmpleado(@PathParam("id")Integer id){
+        
+        if(id<=0){
+        throw new WebApplicationException(Response.Status.BAD_REQUEST);
+        }else{
+            return EmpresaDAO.eliminarEmpresa(id);
+        }
+        
+    
+    }
     
 }
 
