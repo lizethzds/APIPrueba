@@ -32,7 +32,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 <select id="obtenerSucursales" resultType="modelo.pojo.Sucursal">
-    
     SELECT *
     FROM sucursal
     
@@ -40,12 +39,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <select id="obtenerSucursalesEmpresa" resultType="modelo.pojo.Sucursal">
      SELECT 
-        sucursal.nombre AS nombre_sucursal,
+        sucursal.nombre,
         sucursal.latitud,
         sucursal.longitud,
         sucursal.nombre_encargado,
-        sucursal.direccion_id,
-        empresa.nombre AS nombre_empresa
+        sucursal.direccion_id
     FROM 
         sucursal
     INNER JOIN 
@@ -59,8 +57,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      {CALL registrarSucursal(
         #{sucursal.nombre, mode=IN, jdbcType=VARCHAR},
         #{sucursal.telefono, mode=IN, jdbcType=VARCHAR},
-        #{sucursal.latitud, mode=IN, jdbcType=DECIMAL},
-        #{sucursal.longitud, mode=IN, jdbcType=DECIMAL},
+        #{sucursal.latitud, mode=IN, jdbcType=VARCHAR},
+        #{sucursal.longitud, mode=IN, jdbcType=VARCHAR},
         #{sucursal.nombre_encargado, mode=IN, jdbcType=VARCHAR},
         #{sucursal.empresa_id, mode=IN, jdbcType=INTEGER},
         
@@ -75,6 +73,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     )}
     
 </insert>
+
+
+<update id="editarSucursal" parameterType="modelo.pojo.DatosRegistroSucursal" statementType="CALLABLE">
+    {CALL editarSucursal(
+        #{sucursal.id, mode=IN, jdbcType=INTEGER},
+        #{sucursal.nombre, mode=IN, jdbcType=VARCHAR},
+        #{sucursal.telefono, mode=IN, jdbcType=VARCHAR},
+        #{sucursal.latitud, mode=IN, jdbcType=VARCHAR},
+        #{sucursal.longitud, mode=IN, jdbcType=VARCHAR},
+        #{sucursal.nombre_encargado, mode=IN, jdbcType=VARCHAR},
+        
+        #{domicilio.calle, mode=IN, jdbcType=VARCHAR},
+        #{domicilio.numero, mode=IN, jdbcType=INTEGER},
+        #{domicilio.colonia, mode=IN, jdbcType=VARCHAR},
+        #{domicilio.codigo_postal, mode=IN, jdbcType=INTEGER},
+        #{domicilio.id_ciudad, mode=IN, jdbcType=INTEGER},
+        
+        #{filasAfectadas, mode=INOUT, jdbcType=INTEGER},
+        #{error, mode=INOUT, jdbcType=VARCHAR}
+    )}
+</update>
+
+
+ <delete id="eliminarSucursal" parameterType="Integer">
+    DELETE FROM sucursal
+    WHERE id = #{id}
+    AND NOT EXISTS (
+      SELECT 1
+      FROM promocion
+      WHERE promocion.sucursal_id = #{id}
+    )
+</delete>
     
     
 

@@ -4,8 +4,10 @@ package ws;
 import com.google.gson.Gson;
 import java.util.List;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -56,6 +58,16 @@ public class SucursalWS {
     }
     
     
+    @GET
+    @Path("obtenerSucursalPorId/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    
+    public DatosRegistroSucursal obtenerSucursalPorId(@PathParam("id")Integer id){
+        
+        return SucursalDAO.obtenerSucursalPorID(id);
+    }
+    
+    
     @POST
     @Path("registrarSucursal")
     @Produces(MediaType.APPLICATION_JSON)
@@ -79,5 +91,42 @@ public class SucursalWS {
             }
         }
         return msj;
+    }
+    
+    @PUT
+    @Path("editarSucursal")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    
+    public Mensaje editarSucursal(String json){
+        Mensaje msj = new Mensaje();
+        
+        if(json.isEmpty()){
+            throw new WebApplicationException(Response.Status.BAD_REQUEST);
+            
+        }else{
+            Gson gson = new Gson();
+            DatosRegistroSucursal datosSucursal = gson.fromJson(json, DatosRegistroSucursal.class);
+            
+            Sucursal sucursal = datosSucursal.getSucursal();
+            Domicilio domicilio = datosSucursal.getDomicilio();
+            
+            if(sucursal !=null && domicilio !=null){
+                return SucursalDAO.editarSucursal(datosSucursal);
+            }
+        }
+        return msj;
+    }
+    
+    
+    @DELETE
+    @Path("eliminarSucursal/{id}")
+    @Produces("application/json")
+    
+    public Mensaje eliminarSucursal(@PathParam("id") Integer id){
+        if (id <= 0) {
+            throw new WebApplicationException(Response.Status.BAD_REQUEST);
+        }
+        return SucursalDAO.eliminarSucursal(id);
     }
 }

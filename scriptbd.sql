@@ -32,6 +32,11 @@ CREATE TABLE estatus (
     estado_estatus VARCHAR(12) NOT NULL
 );
 
+CREATE TABLE categoria(
+	id_categoria INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_categoria VARCHAR(40)
+);
+
 -- Crear la tabla 'domicilio'
 CREATE TABLE domicilio (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -101,12 +106,44 @@ direccion_id INT NOT NULL,
 FOREIGN KEY (direccion_id) REFERENCES domicilio(id)
 );
 
+CREATE TABLE promocion(
+	id_promocion INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(45) NOT NULL,
+    descripcion VARCHAR(255),
+    imagen LONGBLOB,
+    fecha_inicio VARCHAR(10) NOT NULL,
+    fecha_termino VARCHAR(10) NOT NULL,
+    restricciones VARCHAR(255),
+    tipo VARCHAR(10),
+    descuento FLOAT,
+    categoria_id INT,
+    numero_cupones INT,
+    estatus TINYINT,
+    empresa_id INT,
+    codigo_promocion VARCHAR(8),
+    FOREIGN KEY (categoria_id) REFERENCES categoria(id_categoria),
+    FOREIGN KEY (empresa_id) REFERENCES empresa(id)
+);
+
 
 
 -- Crear el trigger para manejar la eliminación de empresas y domicilio
 DELIMITER $$
 
 CREATE TRIGGER after_empresa_delete
+AFTER DELETE ON empresa
+FOR EACH ROW
+BEGIN
+  -- Eliminar la dirección asociada a la empresa eliminada
+  DELETE FROM domicilio
+  WHERE domicilio.id = OLD.direccion_id;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER after_sucursal_delete
 AFTER DELETE ON empresa
 FOR EACH ROW
 BEGIN
