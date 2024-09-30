@@ -145,12 +145,6 @@ public class EmpresaDAO {
     
     
     
-    /*
-    public static DatosRegistroEmpresa obtenerEmpresaID (DatosRegistroEmpresa empresa){
-        DatosRegistroEmpresa empresaSolicitada = new DatosRegistroEmpresa();
-        
-    }
-    
-    */
+   
    
 }

@@ -7,20 +7,56 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     
     
-    <select id="obtenerDatosCliente" resultType="modelo.pojo.DatosRegistroCliente">
-        
-        
-        
-    </select>
+    <select id="obtenerClientePorId" resultType="modelo.pojo.DatosRegistroCliente">
+    SELECT 
+        c.nombre AS 'cliente.nombre',
+        c.apellido_paterno AS 'cliente.apellido_paterno',
+        c.apellido_materno AS 'cliente.apellido_materno',
+        c.correo_electronico AS 'cliente.correo_electronico',
+        c.telefono AS 'cliente.telefono',
+        c.contrasena AS 'cliente.contrasena',
+
+        d.calle AS 'domicilio.calle',
+        d.numero AS 'domicilio.numero',
+        d.colonia AS 'domicilio.colonia',
+        d.codigo_postal AS 'domicilio.codigo_postal',
+        d.id_ciudad AS 'domicilio.id_ciudad'
+
+    FROM 
+        cliente c
+    INNER JOIN 
+        domicilio d ON c.direccion_id = d.id
+    WHERE 
+        c.id = #{id}
+</select>
+
     
-    <update id="editarCliente" parameterType="modelo.pojo.DatosRegistroCliente">
+    
+    <insert id="registrarCliente" parameterType="modelo.pojo.DatosRegistroCliente" statementType="CALLABLE">
+        {CALL registrarCliente(
+        #{cliente.nombre, mode=IN, jdbcType=VARCHAR},
+        #{cliente.apellido_paterno, mode=IN, jdbcType=VARCHAR},
+        #{cliente.apellido_materno, mode=IN, jdbcType=VARCHAR},
+        #{cliente.correo_electronico, mode=IN, jdbcType=VARCHAR},
+        #{cliente.telefono, mode=IN, jdbcType=VARCHAR},
+        #{cliente.contrasena, mode=IN, jdbcType=VARCHAR},
         
-    </update>
-    
-    
-    <insert id="registrarCliente" parameterType="modelo.pojo.DatosRegistroCliente">
+        #{domicilio.calle, mode=IN, jdbcType=VARCHAR},
+        #{domicilio.numero, mode=IN, jdbcType=VARCHAR}, <!-- Cambiado a VARCHAR en caso de contener letras -->
+        #{domicilio.colonia, mode=IN, jdbcType=VARCHAR},
+        #{domicilio.codigo_postal, mode=IN, jdbcType=VARCHAR}, <!-- Cambiado a VARCHAR por posibles ceros iniciales -->
+        #{domicilio.id_ciudad, mode=IN, jdbcType=INTEGER},
+        
+        #{filasAfectadas, mode=INOUT, jdbcType=INTEGER},
+        #{error, mode=INOUT, jdbcType=VARCHAR}
+    )}
+
         
     </insert>
+    
+     <update id="editarCliente" parameterType="modelo.pojo.DatosRegistroCliente">
+        
+    </update>
     
     
     

@@ -68,9 +68,7 @@ public class EmpresaWS {
     
     
     @POST
-    
     @Path("registrarEmpresa")
-    
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Mensaje registrarEmpresa(String json){
@@ -123,7 +121,6 @@ public class EmpresaWS {
         return msj;
         
     }
-    
     
     
     //Eliminar empresas con restricción de sesion y sucursales

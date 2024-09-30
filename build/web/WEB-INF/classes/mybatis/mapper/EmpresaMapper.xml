@@ -112,6 +112,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     )
 </delete>
 
+  <update id="subirLogo" parameterType="modelo.pojo.Empresa">
+        UPDATE empresa
+        SET logo = #{logo} 
+        WHERE rfc = #{rfc}
+   </update>
+    
+    
+    <select id="obtenerLogo" resultType="modelo.pojo.Empresa" parameterType="Integer">
+        SELECT id, TO_BASE64(logo) AS logoBase64
+        FROM empresa WHERE id = #{id}
+    </select>
+
     
     
 

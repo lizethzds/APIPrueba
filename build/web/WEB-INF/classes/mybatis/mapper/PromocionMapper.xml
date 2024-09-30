@@ -17,10 +17,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     
     <insert id="registrarPromocion" parameterType="modelo.pojo.Promocion">
-        
-        
-        
+    INSERT INTO promocion 
+    (`nombre`, `descripcion`, `fecha_inicio`, `fecha_termino`, `restricciones`, 
+    `tipo`, `descuento`, `categoria_id`, `numero_cupones`, `estatus_id`, `empresa_id`, 
+    `codigo_promocion`) 
+    VALUES 
+       (#{nombre}, #{descripcion}, #{fecha_inicio}, #{fecha_termino}, #{restricciones},
+       #{tipo}, #{descuento}, #{categoria_id}, #{numero_cupones}, #{estatus_id}, #{empresa_id},
+       #{codigo_promocion})   
     </insert>
+    
+    
+    
     
     
     

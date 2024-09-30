@@ -118,11 +118,12 @@ CREATE TABLE promocion(
     descuento FLOAT,
     categoria_id INT,
     numero_cupones INT,
-    estatus TINYINT,
+    estatus_id INT,
     empresa_id INT,
     codigo_promocion VARCHAR(8),
     FOREIGN KEY (categoria_id) REFERENCES categoria(id_categoria),
-    FOREIGN KEY (empresa_id) REFERENCES empresa(id)
+    FOREIGN KEY (empresa_id) REFERENCES empresa(id),
+    FOREIGN KEY (estatus_id) REFERENCES estatus(id)
 );
 
 
