@@ -12,15 +12,12 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/lizet/OneDrive/Documentos/9NO%20SEMESTRE/INTEGRACIÓN%20DE%20SOLUCIONES/ProyectoPrueba/APICuponsmart/src/java/mybatis/mapper/EmpresaMapper.xml</file>
             <file>file:/C:/Users/lizet/OneDrive/Documentos/9NO%20SEMESTRE/INTEGRACIÓN%20DE%20SOLUCIONES/ProyectoPrueba/APICuponsmart/src/java/ws/ClienteWS.java</file>
+            <file>file:/C:/Users/lizet/OneDrive/Documentos/9NO%20SEMESTRE/INTEGRACIÓN%20DE%20SOLUCIONES/ProyectoPrueba/APICuponsmart/src/java/mybatis/mapper/EmpresaMapper.xml</file>
+            <file>file:/C:/Users/lizet/OneDrive/Documentos/9NO%20SEMESTRE/INTEGRACIÓN%20DE%20SOLUCIONES/ProyectoPrueba/APICuponsmart/src/java/mybatis/mapper/SucursalMapper.xml</file>
             <file>file:/C:/Users/lizet/OneDrive/Documentos/9NO%20SEMESTRE/INTEGRACIÓN%20DE%20SOLUCIONES/ProyectoPrueba/APICuponsmart/src/java/mybatis/mapper/ClienteMapper.xml</file>
-            <file>file:/C:/Users/lizet/OneDrive/Documentos/9NO%20SEMESTRE/INTEGRACIÓN%20DE%20SOLUCIONES/ProyectoPrueba/APICuponsmart/src/java/ws/UsuarioWS.java</file>
             <file>file:/C:/Users/lizet/OneDrive/Documentos/9NO%20SEMESTRE/INTEGRACIÓN%20DE%20SOLUCIONES/ProyectoPrueba/APICuponsmart/src/java/modelo/pojo/DatosRegistroCliente.java</file>
             <file>file:/C:/Users/lizet/OneDrive/Documentos/9NO%20SEMESTRE/INTEGRACIÓN%20DE%20SOLUCIONES/ProyectoPrueba/APICuponsmart/src/java/modelo/ClienteDAO.java</file>
-            <file>file:/C:/Users/lizet/OneDrive/Documentos/9NO%20SEMESTRE/INTEGRACIÓN%20DE%20SOLUCIONES/ProyectoPrueba/APICuponsmart/src/java/ws/EmpresaWS.java</file>
-            <file>file:/C:/Users/lizet/OneDrive/Documentos/9NO%20SEMESTRE/INTEGRACIÓN%20DE%20SOLUCIONES/ProyectoPrueba/APICuponsmart/src/java/modelo/EmpresaDAO.java</file>
-            <file>file:/C:/Users/lizet/OneDrive/Documentos/9NO%20SEMESTRE/INTEGRACIÓN%20DE%20SOLUCIONES/ProyectoPrueba/APICuponsmart/src/java/modelo/pojo/Cliente.java</file>
         </group>
     </open-files>
 </project-private>

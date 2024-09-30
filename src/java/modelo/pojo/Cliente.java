@@ -13,12 +13,13 @@ public class Cliente {
     private String correo_electronico;
     private String contrasena;
     private String fecha_nacimiento;
+    private String telefono;
     private Integer direccion_id;
 
     public Cliente() {
     }
 
-    public Cliente(Integer id, String nombre, String apellido_paterno, String apellido_materno, String correo_electronico, String contrasena, String fecha_nacimiento, Integer direccion_id) {
+    public Cliente(Integer id, String nombre, String apellido_paterno, String apellido_materno, String correo_electronico, String contrasena, String fecha_nacimiento, String telefono, Integer direccion_id) {
         this.id = id;
         this.nombre = nombre;
         this.apellido_paterno = apellido_paterno;
@@ -26,8 +27,19 @@ public class Cliente {
         this.correo_electronico = correo_electronico;
         this.contrasena = contrasena;
         this.fecha_nacimiento = fecha_nacimiento;
+        this.telefono = telefono;
         this.direccion_id = direccion_id;
     }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    
 
     public String getFecha_nacimiento() {
         return fecha_nacimiento;

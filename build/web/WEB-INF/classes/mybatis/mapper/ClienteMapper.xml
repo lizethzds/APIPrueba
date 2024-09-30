@@ -33,25 +33,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     
     <insert id="registrarCliente" parameterType="modelo.pojo.DatosRegistroCliente" statementType="CALLABLE">
-        {CALL registrarCliente(
+   {CALL registrarCliente(
         #{cliente.nombre, mode=IN, jdbcType=VARCHAR},
         #{cliente.apellido_paterno, mode=IN, jdbcType=VARCHAR},
         #{cliente.apellido_materno, mode=IN, jdbcType=VARCHAR},
-        #{cliente.correo_electronico, mode=IN, jdbcType=VARCHAR},
         #{cliente.telefono, mode=IN, jdbcType=VARCHAR},
+        #{cliente.fecha_nacimiento, mode=IN, jdbcType=VARCHAR},
+        #{cliente.correo_electronico, mode=IN, jdbcType=VARCHAR},
         #{cliente.contrasena, mode=IN, jdbcType=VARCHAR},
-        
+
         #{domicilio.calle, mode=IN, jdbcType=VARCHAR},
-        #{domicilio.numero, mode=IN, jdbcType=VARCHAR}, <!-- Cambiado a VARCHAR en caso de contener letras -->
+        #{domicilio.numero, mode=IN, jdbcType=INTEGER},
         #{domicilio.colonia, mode=IN, jdbcType=VARCHAR},
-        #{domicilio.codigo_postal, mode=IN, jdbcType=VARCHAR}, <!-- Cambiado a VARCHAR por posibles ceros iniciales -->
+        #{domicilio.codigo_postal, mode=IN, jdbcType=INTEGER},
         #{domicilio.id_ciudad, mode=IN, jdbcType=INTEGER},
-        
+
         #{filasAfectadas, mode=INOUT, jdbcType=INTEGER},
         #{error, mode=INOUT, jdbcType=VARCHAR}
     )}
 
-        
     </insert>
     
      <update id="editarCliente" parameterType="modelo.pojo.DatosRegistroCliente">

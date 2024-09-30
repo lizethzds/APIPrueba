@@ -67,10 +67,12 @@ public class ClienteWS {
            
            if(cliente != null && domicilio != null){
                return ClienteDAO.registrarCliente(datosCliente);
+               
            }
        }
        
        return mensaje;
+       
    }
    
    
